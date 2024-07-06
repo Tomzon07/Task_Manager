@@ -4,9 +4,7 @@ import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 
 const BarChartComponent = () => {
-  const tasks = useSelector((state) => state.tasks.tasks); // Fetch data from Redux store
-
-  console.log('Tasks:', tasks);  // Debugging line to check tasks data
+  const tasks = useSelector((state) => state.tasks.tasks);
 
   const projectLabels = [...new Set(tasks.map(task => task.project))];
 
@@ -17,9 +15,6 @@ const BarChartComponent = () => {
     inProgress: tasks.filter(task => task.project === project && task.status === 'In Progress').length,
   }));
 
-  console.log('Project Labels:', projectLabels);
-  console.log('Task Status Counts:', taskStatusCounts);
-
   const chartData = {
     labels: projectLabels,
     datasets: [
@@ -27,29 +22,58 @@ const BarChartComponent = () => {
         label: 'Todo',
         data: taskStatusCounts.map(task => task.todo),
         backgroundColor: 'purple',
+        stack: 'stack 0',
+        barThickness: 30,
       },
       {
         label: 'Halted',
         data: taskStatusCounts.map(task => task.halted),
         backgroundColor: 'red',
+        stack: 'stack 0',
+        barThickness: 30,
       },
       {
         label: 'Completed',
         data: taskStatusCounts.map(task => task.completed),
         backgroundColor: 'green',
+        stack: 'stack 0',
+        barThickness: 30,
       },
       {
         label: 'In Progress',
         data: taskStatusCounts.map(task => task.inProgress),
         backgroundColor: 'orange',
+        stack: 'stack 0',
+        barThickness: 30,
       },
     ],
   };
 
   const options = {
     scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Projects',
+          font: {
+            weight: 'bold',
+          },
+        },
+      },
       y: {
         beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Number of Bugs',
+          font: {
+            weight: 'bold',
+          },
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        position: 'top',
       },
     },
   };

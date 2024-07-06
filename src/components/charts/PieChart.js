@@ -13,8 +13,6 @@ const PieChart = () => {
     halted: tasks.filter(task => task.status === 'Halted').length,
   };
 
-  console.log('Task Counts for Pie Chart:', taskCounts);  
-
   const chartData = {
     labels: ['Todo', 'In Progress', 'Completed', 'Halted'],
     datasets: [
@@ -25,8 +23,21 @@ const PieChart = () => {
     ],
   };
 
-  return <Pie data={chartData} />;
+  const options = {
+    plugins: {
+      legend: {
+        position: 'right',
+      },
+    },
+    maintainAspectRatio: false,
+  };
+
+  const styles = {
+    height: '350px', 
+    width: '350px', 
+  };
+
+  return <div style={styles}><Pie data={chartData} options={options} /></div>;
 };
 
 export default PieChart;
-

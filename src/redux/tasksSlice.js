@@ -2,12 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   tasks: [
-    { id: 1, description: 'Task Description', project: 'Project 1', progress: 'Progress', status: 'In Progress' },
-    { id: 2, description: 'Task Description', project: 'Project 2', progress: 'Progress', status: 'Completed' },
-    { id: 3, description: 'Task Description', project: 'Project 3', progress: 'Progress', status: 'Halted' },
-    { id: 4, description: 'Task Description', project: 'Project 4', progress: 'Progress', status: 'Todo' },
-    { id: 5, description: 'Task Description', project: 'Project 5', progress: 'Progress', status: 'Todo' },
-    { id: 6, description: 'Task Description', project: 'Project 6', progress: 'Progress', status: 'Todo' },
+    { id: 1, description: 'abc project', project: 'Project 1', progress: '10', status: 'In Progress' },
+    { id: 2, description: 'task manager', project: 'Project 1', progress: '20', status: 'Completed' },
+    { id: 3, description: 'chart task', project: 'Project 1', progress: '50', status: 'Halted' },
+    { id: 5, description: 'redux task', project: 'Project 2', progress: '20', status: 'Todo' },
+    { id: 6, description: 'ui task', project: 'Project 3', progress: '60', status: 'Todo' },
+    { id: 7, description: 'ui-ux task', project: 'Project 4', progress: '60', status: 'Halted' },
+    { id: 8, description: 'ux task', project: 'Project 3', progress: '60', status: 'Completed' },
+
+
   ],
 };
 

@@ -18,10 +18,10 @@ const Dashboard = () => {
   const tasks = useSelector((state) => state.tasks.tasks);
 
   const taskCounts = {
-    todo: tasks.filter(task => task.status === 'Todo').length,
-    inProgress: tasks.filter(task => task.status === 'In Progress').length,
-    completed: tasks.filter(task => task.status === 'Completed').length,
-    halted: tasks.filter(task => task.status === 'Halted').length,
+    Todo: tasks.filter(task => task.status === 'Todo').length,
+    InProgress: tasks.filter(task => task.status === 'In Progress').length,
+    Completed: tasks.filter(task => task.status === 'Completed').length,
+    Halted: tasks.filter(task => task.status === 'Halted').length,
   };
 
   return (
@@ -33,10 +33,10 @@ const Dashboard = () => {
       </div>
       <div className="chart-section">
         <div className="chart">
-          <h4>Project Wise Bug Status</h4>
+          <h4 className='pie-chartTH'>Project Wise Bug Status</h4>
           <BarChart data={tasks} />
         </div>
-        <div className="chart">
+        <div className="Pie-chart">
           <h4>Total Bug Status %</h4>
           <PieChart data={tasks} />
         </div>

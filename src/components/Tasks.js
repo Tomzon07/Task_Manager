@@ -1,67 +1,100 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteTask } from '../redux/tasksSlice';
+import { addTask, updateTask, deleteTask } from '../redux/tasksSlice';
 import TaskModal from './UI/Modal';
-import "./Tasks.css"
-
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { toast } from 'react-toastify';
+import './Tasks.css';
 
 const Tasks = () => {
   const tasks = useSelector(state => state.tasks.tasks);
   const dispatch = useDispatch();
-
   const [showModal, setShowModal] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
 
-  const handleAdd = () => {
+  const handleAdd = useCallback(() => {
     setCurrentTask(null);
     setShowModal(true);
-  };
+  }, []);
 
-  const handleEdit = (task) => {
+  const handleEdit = useCallback(task => {
     setCurrentTask(task);
     setShowModal(true);
-  };
+  }, []);
 
-  const handleDelete = (id) => {
-    console.log("delete")
+  const handleDelete = useCallback(id => {
     dispatch(deleteTask(id));
-  };
+    toast.success("Task deleted successfully")
+  }, [dispatch]);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setShowModal(false);
-  };
+    setCurrentTask(null);
+  }, []);
 
   return (
     <div className='main-body'>
-      <button className='button' onClick={handleAdd}> + Add Task</button>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Description</th>
-            <th>Project</th>
-            <th>Progress</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map(task => (
-            <tr key={task.id}>
-              <td>{task.id}</td>
-              <td>{task.description}</td>
-              <td>{task.project}</td>
-              <td>{task.progress}</td>
-              <td>{task.status}</td>
-              <td>
-                <button onClick={() => handleEdit(task.id)}>Edit</button>
-                <button onClick={() => handleDelete(task.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <TaskModal showModal={showModal} closeModal={closeModal} currentTask={currentTask} />
+      <Button 
+        variant="contained" 
+        color="primary" 
+        onClick={handleAdd} 
+        style={{ marginBottom: '16px',float:"right" }}
+      >
+        + Add Task
+      </Button>
+      <TableContainer component={Paper}
+       sx={{ maxHeight: "75vh", overflowY: 'auto' }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Project</TableCell>
+              <TableCell>Progress</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tasks.map(task => (
+              <TableRow key={task.id}>
+                <TableCell>{task.id}</TableCell>
+                <TableCell>{task.description}</TableCell> 
+                <TableCell>{task.project}</TableCell> 
+                <TableCell>{task.progress}%</TableCell>
+                <TableCell>{task.status}</TableCell>
+                <TableCell>
+                  <IconButton 
+                    color="primary" 
+                    onClick={() => handleEdit(task)}
+                    aria-label="edit"
+                    sx={{ '&:hover': { backgroundColor: 'rgba(25, 76, 141, 0.1)' }, marginRight: 1 }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton 
+                    color="error" 
+                    onClick={() => handleDelete(task.id)}
+                    aria-label="delete"
+                    sx={{ '&:hover': { backgroundColor: 'rgba(211, 47, 47, 0.1)' } }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TaskModal 
+        showModal={showModal} 
+        closeModal={closeModal} 
+        currentTask={currentTask} 
+        addTask={(task) => dispatch(addTask(task))}
+        updateTask={(task) => dispatch(updateTask(task))}
+      />
     </div>
   );
 };
